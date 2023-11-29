@@ -16,7 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build
-        run: ./gradlew clean build
+        run: |
+          chmod u+x gradlew
+          ./gradlew clean build
       - name: Run tests
         run: ./gradlew test
         
