@@ -1,0 +1,32 @@
+name: Test and Release
+on:
+  push:
+    branches:
+      - workflow
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+jobs:
+  # Build the application and run unit tests
+  build-and-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+      - run: ./gradlew clean build
+      - name: Run tests
+        run: ./gradlew test
+        
+  release:
+    needs:
+      - build-and-test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create jar
+        run: ./gradlew shadowJar
+        
