@@ -30,7 +30,10 @@ jobs:
   release:
     needs:
       - build-and-test
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        os: [ windows-2022, macos-12, ubuntu-22.04 ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,9 +41,7 @@ jobs:
         run: |
           chmod u+x gradlew
           ./gradlew shadowJar
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: JavaFX demo
-          path: ./build/libs/Template-all.jar
+      - name: Package
+        run: |
+            jpackage --verbose @jpackage-arguments.cfg
 
