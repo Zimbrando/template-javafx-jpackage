@@ -34,7 +34,7 @@ jobs:
         with:
           name: installers
           path: |
-            ./*.dmg
+            ./*.okg
             ./*.exe
             ./*.deb
             
@@ -52,6 +52,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            *.dmg
+            *.pkg
             *.exe
             *.deb
